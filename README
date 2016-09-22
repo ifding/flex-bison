@@ -1,0 +1,21 @@
+Deployment on Openstack keystone v3
+
+# nano ~/.fog
+:openstack:
+  :openstack_auth_url:  http://130.127.133.140:5000/v3/auth/tokens
+  :openstack_api_key:   b40da891efe76b0b9777
+  :openstack_username:  adminapi
+  :openstack_project_name:    admin
+  :openstack_domain_id:   default
+  :openstack_region:    RegionOne  # Optional
+
+
+# fog openstack
+>> Compute[:openstack].servers
+  <Fog::Compute::OpenStack::Servers
+    filters={}
+    [
+          
+    ]
+  >
+>> 
