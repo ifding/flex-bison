@@ -26,8 +26,8 @@ networks:
 - name: private
   type: manual
   subnets:
-  - range: 10.254.0.0/16 # <--- Replace with a private subnet CIDR
-    gateway: 10.254.10.1 # <--- Replace with a private subnet's gateway
+  - range: 10.11.0.0/16 # <--- Replace with a private subnet CIDR
+    gateway: 10.11.0.1 # <--- Replace with a private subnet's gateway
     dns: [8.8.8.8] # <--- Replace with your DNS
     cloud_properties: {net_id: 6169fa75-fefe-4149-9536-e3785d5bb5ba } # <--- # Replace with private network UUID
 - name: public
@@ -51,7 +51,7 @@ jobs:
 
   networks:
   - name: private
-    static_ips: [10.254.10.20] # <--- Replace with a private IP
+    static_ips: [10.11.10.20] # <--- Replace with a private IP
     default: [dns, gateway]
   - name: public
     static_ips: [130.127.132.203] # <--- Replace with a floating IP
@@ -71,17 +71,17 @@ jobs:
       adapter: postgres
 
     registry:
-      address: 10.254.10.20 # <--- Replace with a private IP
-      host: 10.254.10.20 # <--- Replace with a private IP
+      address: 10.11.10.20 # <--- Replace with a private IP
+      host: 10.11.10.20 # <--- Replace with a private IP
       db: *db
-      http: {user: admin, password: admin, port: 25777}
+      http: {user: admin, password: admin-password, port: 25777}
       username: admin
       password: admin-password
       port: 25777
-      endpoint: http://admin:admin-password@10.254.10.20:25777
+      endpoint: http://admin:admin-password@10.11.10.20:25777
 
     blobstore:
-      address: 10.254.10.20 # <--- Replace with a private IP
+      address: 10.11.10.20 # <--- Replace with a private IP
       port: 25250
       provider: dav
       director: {user: director, password: director-password}
@@ -109,7 +109,7 @@ jobs:
       project: admin
       domain: default
       region: RegionOne
-      username: admin
+      username: adminapi
       api_key: 0e5edf8609ea
       default_key_name: bosh
       default_security_groups: [bosh]
@@ -117,7 +117,7 @@ jobs:
         connect_timeout: 3600
         ssl_verify_peer: false
 
-    agent: {mbus: "nats://nats:nats-password@10.254.10.20:4222"} # <--- Replace with a private IP
+    agent: {mbus: "nats://nats:nats-password@10.11.10.20:4222"} # <--- Replace with a private IP
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
