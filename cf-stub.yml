@@ -7,7 +7,7 @@ meta:
   - 130.127.132.203
 
 networks:
-  - name: External
+  - name: floating
     type: vip
     cloud_properties:
       net_id: 9abbfdc6-7594-4352-be59-efc670c16d77
@@ -17,7 +17,7 @@ networks:
     type: manual
     subnets:
     - range: 10.11.0.0/24
-      gateway: 10.11.10.4
+      gateway: 10.11.0.1
       reserved:
       - 10.11.0.2 - 10.11.0.100
       - 10.11.0.200 - 10.11.0.253
@@ -375,7 +375,14 @@ properties:
         -----END RSA PRIVATE KEY-----
     scim:
       users:
-        - admin|plumgrid|scim.write,scim.read,openid,cloud_controller.admin,doppler.firehose
+      - name: admin
+        password: ADMIN_PASSWORD
+        groups:
+        - scim.write
+        - scim.read
+        - openid
+        - cloud_controller.admin
+        - doppler.firehose
 
   ccdb:
     roles:
