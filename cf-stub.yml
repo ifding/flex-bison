@@ -331,6 +331,8 @@ properties:
         secret: LOGIN_CLIENT_SECRET
       notifications:
         secret: NOTIFICATIONS_CLIENT_SECRET
+      cc-service-dashboards:
+        secret: CC-SERVICE-DASHBOARDS-SECRET
     jwt:
       verification_key: |+
         -----BEGIN PUBLIC KEY-----
