@@ -105,7 +105,7 @@ jobs:
       resurrector_enabled: true
 
     openstack: &openstack
-      auth_url: http://ctl.cf-df-9.cloudfoundry-PG0.clemson.cloudlab.us:5000/v3
+      auth_url: http://130.127.133.140:5000/v3
       project: admin
       domain: default
       region: RegionOne
