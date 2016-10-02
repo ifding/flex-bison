@@ -1,4 +1,4 @@
-.PHONY: all rvm bosh secgroup ssh bosh-init cf-stub upload deploy
+.ONESHELL: all rvm bosh secgroup ssh bosh-init cf-stub upload deploy
 
 all: rvm bosh secgroup ssh bosh-init cf-stub upload deploy
 
@@ -7,7 +7,7 @@ rvm:
 	sudo apt-get install curl
 	curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -
 	curl -L https://get.rvm.io | bash -s stable --ruby
-	$(shell source /usr/local/rvm/scripts/rvm)
+	source /usr/local/rvm/scripts/rvm
 	rvm -v
 	ruby -v
 
@@ -27,7 +27,7 @@ secgroup:
 	nova secgroup-add-rule cf tcp 443 443 0.0.0.0/0
 	nova secgroup-add-rule cf udp 68 68 0.0.0.0/0
 	nova secgroup-add-rule cf tcp 4443 4443 0.0.0.0/0
-	nova secgroup-add-rule cf cf tcp -1 -1
+	nova secgroup-add-group-rule cf cf tcp 1 65535
 	nova secgroup-add-rule cf tcp 22 22 0.0.0.0/0
 	nova secgroup-add-rule cf icmp -1 -1 0.0.0.0/0
 
@@ -45,7 +45,7 @@ bosh-init:
 
 cf-stub:
 	git clone https://github.com/cloudfoundry/cf-release.git
-	$(shell cd cf-release)
+	cd cf-release
 	./scripts/update
 	wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_linux_amd64.zip
 	sudo apt-get install unzip
@@ -53,11 +53,11 @@ cf-stub:
 	mv spiff /usr/bin
 	chmod +x /usr/bin/spiff
 	spiff -v
+
+upload:		
 	./scripts/generate_deployment_manifest openstack /root/my-bosh/cf-stub.yml > cf-deployment.yml
 	bosh deployment cf-deployment.yml
 	wget --content-disposition https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3262.14
-  
-upload:
 	bosh upload stemcell /root/my-bosh/cf-release/bosh-stemcell-3262.14-openstack-kvm-ubuntu-trusty-go_agent.tgz
 	bosh create release
 	bosh upload release releases/cf-243.yml
