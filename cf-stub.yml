@@ -61,7 +61,6 @@ properties:
       secret: admin
 
     tls:
-      port: 4443
       cert: |+
         -----BEGIN CERTIFICATE-----
         MIIEMzCCAhugAwIBAgIRAMifGH0CJE5K6s6ya4ASG0UwDQYJKoZIhvcNAQELBQAw
@@ -613,6 +612,6 @@ jobs:
         release: cf
 
   - name: api_worker_z1
-    instances: 1
+    instances: 0
   - name: clock_global
     instances: 0
