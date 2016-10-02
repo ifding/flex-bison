@@ -1,16 +1,16 @@
 ---
-director_uuid: 1fd9a306-b094-4b6f-b8e6-441c8c9e1a32
+director_uuid: 4ca52c29-cbe4-4fa0-95ef-3dde715059b7
 
 meta:
   environment: cf
   floating_static_ips:
-  - 130.127.132.203
+  - 130.127.132.202
 
 networks:
   - name: floating
     type: vip
     cloud_properties:
-      net_id: 9abbfdc6-7594-4352-be59-efc670c16d77
+      net_id: 658a80f7-cd39-4697-8f66-a814e9aae9bc
       security_groups: []
 
   - name: cf1
@@ -26,7 +26,7 @@ networks:
       static:
       - 10.11.0.125 - 10.11.0.175
       cloud_properties:
-        net_id: cfd438e9-344f-4b54-9d8a-e3b49d7f4f9e
+        net_id: 4f7000ef-7ef7-4ca4-9349-8b62df8b7dbc
         security_groups: ["cf"]
 
   - name: cf2
