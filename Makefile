@@ -7,7 +7,7 @@ rvm:
 	sudo apt-get install curl
 	curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -
 	curl -L https://get.rvm.io | bash -s stable --ruby
-	source /usr/local/rvm/scripts/rvm
+	$(shell source /usr/local/rvm/scripts/rvm)
 	rvm -v
 	ruby -v
 
@@ -45,7 +45,7 @@ bosh-init:
 
 cf-stub:
 	git clone https://github.com/cloudfoundry/cf-release.git
-	cd cf-release
+	$(shell cd cf-release)
 	./scripts/update
 	wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_linux_amd64.zip
 	sudo apt-get install unzip
