@@ -3,8 +3,8 @@ name: bosh
 
 releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=257.9
-  sha1: 3d6168823f5a8aa6b7427429bc727103e15e27af
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=257.15
+  sha1: f4cf3579bfac994cd3bde4a9d8cbee3ad189c8b2
 - name: bosh-openstack-cpi
   url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=27
   sha1: 85e6244978f775c888bbd303b874a2c158eb43c4
@@ -13,8 +13,8 @@ resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3262.12
-    sha1: c5b120e910a0685da37299d991feb8075de569f2
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3263.5
+    sha1: 0cdd27c38376a08d0ec65b58319783fe5ac52e8d
   cloud_properties:
     instance_type: m1.xlarge
 
@@ -26,8 +26,8 @@ networks:
 - name: private
   type: manual
   subnets:
-  - range: 10.11.0.0/16 # <--- Replace with a private subnet CIDR
-    gateway: 10.11.10.5 # <--- Replace with a private subnet's gateway
+  - range: 10.11.0.0/24 # <--- Replace with a private subnet CIDR
+    gateway: 10.11.0.1 # <--- Replace with a private subnet's gateway
     dns: [8.8.8.8] # <--- Replace with your DNS
     cloud_properties: {net_id: 4f7000ef-7ef7-4ca4-9349-8b62df8b7dbc } # <--- # Replace with private network UUID
 - name: public
@@ -51,7 +51,7 @@ jobs:
 
   networks:
   - name: private
-    static_ips: [10.11.10.20] # <--- Replace with a private IP
+    static_ips: [10.11.0.200] # <--- Replace with a private IP
     default: [dns, gateway]
   - name: public
     static_ips: [130.127.132.202] # <--- Replace with a floating IP
@@ -71,17 +71,17 @@ jobs:
       adapter: postgres
 
     registry:
-      address: 10.11.10.20 # <--- Replace with a private IP
-      host: 10.11.10.20 # <--- Replace with a private IP
+      address: 10.11.0.200 # <--- Replace with a private IP
+      host: 10.11.0.200 # <--- Replace with a private IP
       db: *db
-      http: {user: admin, password: admin-password, port: 25777}
+      http: {user: admin, password: admin, port: 25777}
       username: admin
-      password: admin-password
+      password: admin
       port: 25777
-      endpoint: http://admin:admin-password@10.11.10.20:25777
+      endpoint: http://admin:admin@10.11.0.200:25777
 
     blobstore:
-      address: 10.11.10.20 # <--- Replace with a private IP
+      address: 10.11.0.200 # <--- Replace with a private IP
       port: 25250
       provider: dav
       director: {user: director, password: director-password}
@@ -117,7 +117,7 @@ jobs:
         connect_timeout: 3600
         ssl_verify_peer: false
 
-    agent: {mbus: "nats://nats:nats-password@10.11.10.20:4222"} # <--- Replace with a private IP
+    agent: {mbus: "nats://nats:nats-password@10.11.0.200:4222"} # <--- Replace with a private IP
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
