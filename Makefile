@@ -57,8 +57,8 @@ cf-stub:
 upload:		
 	./scripts/generate_deployment_manifest openstack /root/my-bosh/cf-stub.yml > cf-deployment.yml
 	bosh deployment cf-deployment.yml
-	wget --content-disposition https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3262.5
-	bosh upload stemcell /root/my-bosh/cf-release/bosh-stemcell-3262.5-openstack-kvm-ubuntu-trusty-go_agent.tgz
+	wget --content-disposition https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3263.5
+	bosh upload stemcell /root/my-bosh/cf-release/bosh-stemcell-3263.5-openstack-kvm-ubuntu-trusty-go_agent.tgz
 	bosh create release
 	bosh upload release releases/cf-244.yml
   
