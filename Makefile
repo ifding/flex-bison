@@ -12,7 +12,7 @@ rvm:
 	ruby -v
 
 bosh:
-	gem install bosh_cli_plugin_micro --pre
+	gem install bosh_cli --no-ri --no-rdoc
 	bosh -v
 
 secgroup:
