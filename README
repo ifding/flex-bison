@@ -37,3 +37,5 @@ Cloud Foundry deployment on Openstack keystone v3
 2009-04-04
 
 3. Create ~/my-bosh/admin-openrcs.sh file and copy the relative content in controller node: /root/setup/admin-openrc.sh.
+
+4. Virtual machines paused due to low disk space
