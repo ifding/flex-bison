@@ -1,0 +1,30 @@
+---
+agent_list:
+- 10.11.10.33
+- 10.11.10.34
+- 10.11.10.35
+- 10.11.10.36
+- 10.11.10.37
+# Use this bootstrap_url value unless you have moved the DC/OS installer assets.
+bootstrap_url: file:///opt/dcos_install_tmp
+cluster_name: test
+exhibitor_storage_backend: static
+master_discovery: static
+master_list:
+- 10.11.10.30
+- 10.11.10.31
+- 10.11.10.32
+public_agent_list:
+- 130.127.132.203
+resolvers:
+- 8.8.4.4
+- 8.8.8.8
+ssh_key_path: /home/centos/genconf/ssh-key
+ssh_port: 22
+ssh_user: centos
+# A custom proxy is optional. For details see the config documentation.
+use_proxy: 'true'
+http_proxy: http://<your_http_proxy>/
+https_proxy: https://<your_https_proxy>/
+no_proxy: 
+- '*.int.example.com'
