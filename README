@@ -27,7 +27,7 @@ Service Run on DC/CS.
        $ mkdir vagrant_project && cd vargrant_project
        $ vargrant init
        $ nano vargrantfile
-         config.vm.box = "precise32"3. Vagrant
+         config.vm.box = "precise32"
        $ vargrant up
        connect using SSH
        $ vargrant ssh
