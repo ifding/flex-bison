@@ -2,3 +2,5 @@
 DC/OS Install on platform: AWS, CoreOS, CentOS, Vagrant
 Service Run on DC/CS.
 
+1. Install Docker Engine
+   https://docs.docker.com/engine/installation/linux/centos/
