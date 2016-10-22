@@ -4,3 +4,35 @@ Service Run on DC/CS.
 
 1. Install Docker Engine
    https://docs.docker.com/engine/installation/linux/centos/
+
+2. Installing Vagrant and VirtualBox
+
+   Step 1: Installing Virtualbox
+       $ sudo apt-get install virtualbox
+       $ sudo apt-get install virtualbox-dkms
+   OR
+   Installing VirtualBox 5.1 in Debian, Ubuntu and Linux Mint
+       $ sudo apt-get remove virtualbox-4*
+       $ sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
+       $ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -  
+       $ sudo apt-get update  
+       $ sudo apt-get install virtualbox-5.1            
+            
+   Step 2: Download and install vagrant
+      $ wget https://releases.hashicorp.com/vagrant/1.8.6/vagrant_1.8.6_x86_64.deb
+      $ dpkg -i vagrant_1.8.6_x86_64.deb
+      
+   Step 3: Getting vagrant machine up
+       $ vagrant box add precise32 http://files.vagrantup.com/precise32.box
+       $ mkdir vagrant_project && cd vargrant_project
+       $ vargrant init
+       $ nano vargrantfile
+         config.vm.box = "precise32"3. Vagrant
+       $ vargrant up
+       connect using SSH
+       $ vargrant ssh
+   Step 4: return to the host machine
+       $ exit
+   Step 5: destroy the VM and remove the binary image
+       $ vargrant destroy
+       This command must be run from the directory which contains the vagrantfile you want to remove.
