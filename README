@@ -36,3 +36,20 @@ Service Run on DC/CS.
    Step 5: destroy the VM and remove the binary image
        $ vargrant destroy
        This command must be run from the directory which contains the vagrantfile you want to remove.
+3. Timeout waiting for machine to boot
+   ==> boot: Waiting for machine to boot. This may take a few minutes...
+       boot: SSH address: 127.0.0.1:2202
+       boot: SSH username: vagrant
+       boot: SSH auth method: private key
+   Timed out while waiting for the machine to boot. This means that
+   Vagrant was unable to communicate with the guest machine within
+   the configured ("config.vm.boot_timeout" value) time period.
+Solution:
+   Add it to the Vagrantfile:
+   Vagrant.configure("2") do |config|
+     config.ssh.private_key_path = "~/.ssh/id_rsa"
+     config.ssh.forward_agent = true
+   end
+   1) config.ssh.private_key_path is your local private key
+   2) The private key must be available to the local ssh-agent. You can check with ssh-add -L, if it's not listed add it with ssh-add ~/.ssh/id_rsa
+   3) Add you public key to ~/.ssh/authorized_keys on the Vagrant VM. You can do it copy-and-pasting or using a tool like ssh-copy-id
