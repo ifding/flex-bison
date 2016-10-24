@@ -1,42 +1,67 @@
 
-DC/OS Install on platform: AWS, CoreOS, CentOS, Vagrant
-Service Run on DC/CS.
+DC/OS Install on  CentOS, Service Run on DC/CS.
 
-1. Install Docker Engine
-   https://docs.docker.com/engine/installation/linux/centos/
+1. Install Docker 1.11 
 
-2. Installing Vagrant and VirtualBox
+   1) Upgrade CentOS to 7.2: 
+   
+$ sudo yum upgrade --assumeyes --tolerant
+$ sudo yum update --assumeyes
 
-   Step 1: Installing Virtualbox
-       $ sudo apt-get install virtualbox
-       $ sudo apt-get install virtualbox-dkms
-   OR
-   Installing VirtualBox 5.1 in Debian, Ubuntu and Linux Mint
-       $ sudo apt-get remove virtualbox-4*
-       $ sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
-       $ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -  
-       $ sudo apt-get update  
-       $ sudo apt-get install virtualbox-5.1            
-            
-   Step 2: Download and install vagrant
-      $ wget https://releases.hashicorp.com/vagrant/1.8.6/vagrant_1.8.6_x86_64.deb
-      $ dpkg -i vagrant_1.8.6_x86_64.deb
-      
-   Step 3: Getting vagrant machine up
-       $ vagrant box add precise32 http://files.vagrantup.com/precise32.box
-       $ mkdir vagrant_project && cd vargrant_project
-       $ vargrant init
-       $ nano vargrantfile
-         config.vm.box = "precise32"
-       $ vargrant up
-       connect using SSH
-       $ vargrant ssh
-   Step 4: return to the host machine
-       $ exit
-   Step 5: destroy the VM and remove the binary image
-       $ vargrant destroy
-       This command must be run from the directory which contains the vagrantfile you want to remove.
-3. Timeout waiting for machine to boot
+   2) Verify that the kernel is at least 3.10: 
+   
+$ uname -r
+3.10.0-327.10.1.el7.x86_64
+
+   3) Enable OverlayFS:
+   
+$ sudo tee /etc/modules-load.d/overlay.conf <<-'EOF'
+overlay
+EOF
+
+   4) Reboot to reload kernel modules:
+   
+$ reboot
+
+   5) Verify that OverlayFS is enabled:
+   
+$ lsmod | grep overlay
+overlay
+
+   6) Configure yum to use the Docker yum repo:
+   
+$ sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+
+   7) Configure systemd to run the Docker Daemon with OverlayFS:
+
+$ sudo mkdir -p /etc/systemd/system/docker.service.d && sudo tee /etc/systemd/system/docker.service.d/override.conf <<- EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
+EOF
+
+   8) Install the Docker engine, daemon, and service:
+   
+$ curl -O -sSL https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
+$ sudo yum localinstall --assumeyes --tolerant docker-engine-1.11.2-1.el7.centos.x86_64.rpm
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+Complete!
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+
+   9) Test that Docker is properly installed:
+
+$ sudo docker ps
+ 
+ 
+ 2. Timeout waiting for machine to boot
    ==> boot: Waiting for machine to boot. This may take a few minutes...
        boot: SSH address: 127.0.0.1:2202
        boot: SSH username: vagrant
