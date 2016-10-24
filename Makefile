@@ -12,4 +12,3 @@ update:
 	
 clean:
 	rm ~/my-bosh/bosh-init-*
-
