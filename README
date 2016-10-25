@@ -43,8 +43,7 @@ ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
 EOF
 
    8) Install the Docker engine, daemon, and service:
-$ curl -O -sSL https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
-$ sudo yum localinstall --assumeyes --tolerant docker-engine-1.11.2-1.el7.centos.x86_64.rpm
+$ sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
 $ sudo systemctl start docker
 $ sudo systemctl enable docker
 Complete!
