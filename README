@@ -1,6 +1,8 @@
 
 DC/OS Install on  CentOS, Service Run on DC/CS.
 
+All Nodes:
+
 1. Install Docker 1.11 
 
    1) Upgrade CentOS to 7.2: 
@@ -50,9 +52,21 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
 
    9) Test that Docker is properly installed:
 $ sudo docker ps
- 
- 
- 2. Timeout waiting for machine to boot
+
+
+
+2. Disable sudo password prompts 
+   Run this command to disable the sudo password prompt:
+%wheel ALL=(ALL) NOPASSWD: ALL
+   Alternatively, you can SSH as the root user.
+
+3. Enable NTP
+   Network Time Protocol (NTP) must be enabled on all nodes for clock synchronization
+$ yum install ntp
+
+
+
+4. Timeout waiting for machine to boot
    ==> boot: Waiting for machine to boot. This may take a few minutes...
        boot: SSH address: 127.0.0.1:2202
        boot: SSH username: vagrant
