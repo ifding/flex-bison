@@ -32,6 +32,9 @@ docker:
 	docker info
 	
 boot:
+	sudo yum -y install epel-release
+	sudo yum -y install python-pip
+	sudo pip install virtualenv
 	sudo systemctl stop firewalld && sudo systemctl disable firewalld
 	sudo docker pull nginx
 	sudo yum install -y ntp
