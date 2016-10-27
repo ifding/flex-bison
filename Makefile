@@ -21,7 +21,7 @@ docker:
 	gpgcheck=1
 	gpgkey=https://yum.dockerproject.org/gpg
 	EOF	
-	sudo mkdir -p /etc/systemd/system/docker.service.d && sudo tee /etc/systemd/system/docker.service.d/override.conf <<- EOF
+	sudo mkdir -p /etc/systemd/system/docker.service.d && sudo tee /etc/systemd/system/docker.service.d/override.conf <<- 'EOF'
 	[Service]
 	ExecStart=
 	ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
