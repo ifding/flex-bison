@@ -1,6 +1,6 @@
 .ONESHELL: all update 
 
-all: update docker boot cluster
+all: update repo override docker boot cluster
 
 update:
 	sudo yum upgrade --assumeyes --tolerant
@@ -11,7 +11,7 @@ update:
 	EOF
 	reboot
 	
-docker:
+repo:
 	lsmod | grep overlay
 	sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
 	[dockerrepo]
@@ -20,13 +20,15 @@ docker:
 	enabled=1
 	gpgcheck=1
 	gpgkey=https://yum.dockerproject.org/gpg
-	EOF	
+	EOF
+override:
 	sudo mkdir -p /etc/systemd/system/docker.service.d
 	sudo tee /etc/systemd/system/docker.service.d/override.conf <<- 'EOF'
 	[Service]
 	ExecStart=
 	ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
 	EOF
+docker:
 	sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
 	sudo systemctl start docker
 	sudo systemctl enable docker
