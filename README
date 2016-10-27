@@ -5,10 +5,7 @@ Install DCOS on CentOS
 
 * Install CentOS for each machine (ensure can ssh to each machine )
 	1)Bootstrap Node
-		*Install pip, virtualenv
-			$ sudo yum -y install epel-release
-			$ sudo yum -y install python-pip
-			$ sudo pip install virtualenv
+		$ mkdir /opt/mesosphere && cd /opt/mesosphere		
 		*Create ssh key and copy to cluster node:
 			$ ssh-keygen -t rsa
 			$ ssh-copy-id <username>@<cluster_node>
@@ -70,18 +67,19 @@ EOF
 	9) Test that Docker is properly installed:
 		$ docker info
 
-3. Enable NTP
-   Network Time Protocol (NTP) must be enabled on all nodes for clock synchronization
-$ yum install ntp
-
 * Firewall must be stopped and disabled: 
 	$ sudo systemctl stop firewalld && sudo systemctl disable firewalld
 
 * Bootstrap Node:
+	$ sudo yum -y install epel-release
+	$ sudo yum -y install python-pip
+	$ sudo pip install virtualenv	
 	$ sudo docker pull nginx
+	$ yum install -y ntp nano
+	
 * Cluster Node:
 	* Install data compression tool:  
-		$ sudo yum install -y tar xz unzip curl ipset
+		$ sudo yum install -y tar xz unzip curl ipset ntp nano
 	* Update permissions[1]:
 $ sudo sed -i s/SELINUX=enforcing/SELINUX=permissive/g /etc/selinux/config &&
 sudo groupadd nogroup &&
