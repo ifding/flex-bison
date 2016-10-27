@@ -42,3 +42,17 @@ cluster:
 	sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
 	sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 	sudo reboot
+
+dcos:
+	curl -O https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh
+	sudo bash dcos_generate_config.sh
+	sudo docker run -d -p 8848:80 -v $PWD/genconf/serve:/usr/share/nginx/html:ro nginx
+	
+master:
+	mkdir /tmp/dcos && cd /tmp/dcos
+	curl -O http://10.11.10.15:8848/dcos_install.sh
+	sudo bash dcos_install.sh master
+agent:
+	mkdir /tmp/dcos && cd /tmp/dcos
+	curl -O http://10.11.10.15:8848/dcos_install.sh
+	sudo bash dcos_install.sh slave
