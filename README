@@ -1,31 +1,49 @@
 
 DC/OS Install on  CentOS, Service Run on DC/CS.
 
-All Nodes:
+Install DCOS on CentOS
 
-1. Install Docker 1.11 
+* Install CentOS for each machine (ensure can ssh to each machine )
+	1)Bootstrap Node
+		*Install pip, virtualenv
+			$ sudo yum -y install epel-release
+			$ sudo yum -y install python-pip
+			$ sudo pip install virtualenv
+		*Create ssh key and copy to cluster node:
+			$ ssh-keygen -t rsa
+			$ ssh-copy-id <username>@<cluster_node>
+			OR
+			$ cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
-   1) Upgrade CentOS to 7.2: 
-$ sudo yum upgrade --assumeyes --tolerant
-$ sudo yum update --assumeyes
+	2)Cluster Node
+		*Disable sudo password
+			add the following at the end of /etc/sudoers
+			%wheel ALL=(ALL) NOPASSWD: ALL			
+			<username> ALL=(ALL) NOPASSWD: ALL
 
-   2) Verify that the kernel is at least 3.10: 
-$ uname -r
-3.10.0-327.10.1.el7.x86_64
+* Install Docker on CentOS for each machine
 
-   3) Enable OverlayFS:
+       	1) Upgrade CentOS to 7.2: 
+		$ sudo yum upgrade --assumeyes --tolerant
+		$ sudo yum update --assumeyes
+		
+	2) Verify that the kernel is at least 3.10: 
+		$ uname -r
+		3.10.0-327.10.1.el7.x86_64
+
+	3) Enable OverlayFS:
 $ sudo tee /etc/modules-load.d/overlay.conf <<-'EOF'
 overlay
 EOF
+		
+	4) Reboot to reload kernel modules:
+		$ reboot
 
-   4) Reboot to reload kernel modules:
-$ reboot
-
-   5) Verify that OverlayFS is enabled:
+	5) Verify that OverlayFS is enabled:
 $ lsmod | grep overlay
 overlay
 
-   6) Configure yum to use the Docker yum repo:
+	6) Configure yum to use the Docker yum repo:
 $ sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
 [dockerrepo]
 name=Docker Repository
@@ -35,50 +53,47 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
 
-   7) Configure systemd to run the Docker Daemon with OverlayFS:
+	7) Configure systemd to run the Docker Daemon with OverlayFS:
 $ sudo mkdir -p /etc/systemd/system/docker.service.d && sudo tee /etc/systemd/system/docker.service.d/override.conf <<- EOF
 [Service]
 ExecStart=
 ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
 EOF
 
-   8) Install the Docker engine, daemon, and service:
-$ sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
-$ sudo systemctl start docker
-$ sudo systemctl enable docker
-Complete!
-Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+	8) Install the Docker engine, daemon, and service:
+		$ sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
+		$ sudo systemctl start docker
+		$ sudo systemctl enable docker
+		Complete!
+		Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
 
-   9) Test that Docker is properly installed:
-$ sudo docker ps
-
-
-
-2. Disable sudo password prompts 
-   Run this command to disable the sudo password prompt:
-%wheel ALL=(ALL) NOPASSWD: ALL
-   Alternatively, you can SSH as the root user.
+	9) Test that Docker is properly installed:
+		$ docker info
 
 3. Enable NTP
    Network Time Protocol (NTP) must be enabled on all nodes for clock synchronization
 $ yum install ntp
 
+* Firewall must be stopped and disabled: 
+	$ sudo systemctl stop firewalld && sudo systemctl disable firewalld
 
+* Bootstrap Node:
+	$ sudo docker pull nginx
+* Cluster Node:
+	* Install data compression tool:  
+		$ sudo yum install -y tar xz unzip curl ipset
+	* Update permissions[1]:
+$ sudo sed -i s/SELINUX=enforcing/SELINUX=permissive/g /etc/selinux/config &&
+sudo groupadd nogroup &&
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1 &&
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1 &&
+sudo reboot
 
-4. Timeout waiting for machine to boot
-   ==> boot: Waiting for machine to boot. This may take a few minutes...
-       boot: SSH address: 127.0.0.1:2202
-       boot: SSH username: vagrant
-       boot: SSH auth method: private key
-   Timed out while waiting for the machine to boot. This means that
-   Vagrant was unable to communicate with the guest machine within
-   the configured ("config.vm.boot_timeout" value) time period.
-Solution:
-   Add it to the Vagrantfile:
-   Vagrant.configure("2") do |config|
-     config.ssh.private_key_path = "~/.ssh/id_rsa"
-     config.ssh.forward_agent = true
-   end
-   1) config.ssh.private_key_path is your local private key
-   2) The private key must be available to the local ssh-agent. You can check with ssh-add -L, if it's not listed add it with ssh-add ~/.ssh/id_rsa
-   3) Add you public key to ~/.ssh/authorized_keys on the Vagrant VM. You can do it copy-and-pasting or using a tool like ssh-copy-id
+------------------------------------------------------------------------------------
+
+* Create a configuration file and save as genconf/config.yaml
+   $ nano /etc/resolv.conf
+   
+* Copy your private SSH key to genconf/ssh_key
+   $ cp /root/.ssh/id_rsa genconf/ssh_key && chmod 0600 genconf/ssh_key
+   
