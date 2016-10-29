@@ -13,10 +13,9 @@ Install DCOS on CentOS
 			$ cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
 	2)Cluster Node
-		*Disable sudo password
-			add the following at the end of /etc/sudoers
+		*Disable sudo password in /etc/sudoers
+			$ export VISUAL=nano; visudo			
 			%wheel ALL=(ALL) NOPASSWD: ALL			
-			<username> ALL=(ALL) NOPASSWD: ALL
 
 * Install Docker on CentOS for each machine
 
