@@ -21,7 +21,6 @@ repo:
 	gpgcheck=1
 	gpgkey=https://yum.dockerproject.org/gpg
 	EOF
-override:
 	sudo mkdir -p /etc/systemd/system/docker.service.d
 	sudo tee /etc/systemd/system/docker.service.d/override.conf <<- 'EOF'
 	[Service]
@@ -48,7 +47,17 @@ cluster:
 	sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
 	sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 	sudo reboot
-
+	
+ssh:
+	cat ~/.ssh/id_rsa.pub | ssh -i master.pem centos@10.11.10.12 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i master.pem centos@10.11.10.16 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i master.pem centos@10.11.10.17 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i agent.pem centos@10.11.10.14 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i agent.pem centos@10.11.10.18 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i agent.pem centos@10.11.10.19 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i agent.pem centos@10.11.10.20 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	cat ~/.ssh/id_rsa.pub | ssh -i agent.pem centos@10.11.10.21 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+	
 dcos:
 	curl -O https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh
 	sudo bash dcos_generate_config.sh
