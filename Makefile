@@ -64,9 +64,9 @@ dcos:
 	
 master:
 	mkdir /tmp/dcos && cd /tmp/dcos
-	curl -O http://10.11.10.15:8848/dcos_install.sh
+	curl -O http://10.11.10.7:8848/dcos_install.sh
 	sudo bash dcos_install.sh master
 agent:
 	mkdir /tmp/dcos && cd /tmp/dcos
-	curl -O http://10.11.10.15:8848/dcos_install.sh
+	curl -O http://10.11.10.7:8848/dcos_install.sh
 	sudo bash dcos_install.sh slave
