@@ -21,14 +21,13 @@ repo:
 	gpgcheck=1
 	gpgkey=https://yum.dockerproject.org/gpg
 	EOF
-	sudo mkdir -p /etc/systemd/system/docker.service.d
-	sudo tee /etc/systemd/system/docker.service.d/override.conf <<- 'EOF'
+	sudo mkdir -p /etc/systemd/system/docker.service.d && sudo tee /etc/systemd/system/docker.service.d/override.conf <<- 'EOF'
 	[Service]
 	ExecStart=
 	ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
 	EOF
 docker:
-	sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm
+	sudo yum install -y https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.11.2-1.el7.centos.x86_64.rpm --assumeyes --tolerant	
 	sudo systemctl start docker
 	sudo systemctl enable docker
 	docker info
