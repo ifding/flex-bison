@@ -1,6 +1,6 @@
 Installing Vagrant and VirtualBox on CentOS
 =========
->2017-02-06
+>02-06-2017
 
 ### Step 1: Installing Virtualbox
 Installing VirtualBox 5.1 in Debian, Ubuntu and Linux Mint
@@ -32,21 +32,18 @@ $ nano vargrantfile
 $ vargrant up
 connect using SSH
 $ vargrant ssh
-
 ```
 
 ### Step 4: return to the host machine
 
 ```
 $ exit
-
 ```
 
 ### Step 5: destroy the VM and remove the binary image
 
 ```
 $ vargrant destroy
-
 ```
 This command must be run from the directory which contains the vagrantfile you want to remove.
 
