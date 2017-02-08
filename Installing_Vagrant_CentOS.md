@@ -25,13 +25,18 @@ $ dpkg -i vagrant_1.8.7_x86_64.deb
 
 ```
 $ vagrant box add precise32 http://files.vagrantup.com/precise32.box
-$ mkdir vagrant_project && cd vargrant_project
-$ vargrant init
+$ mkdir vagrant_project && cd vagrant_project
+$ vagrant init
 $ nano vargrantfile
   config.vm.box = "precise32"
-$ vargrant up
+$ vagrant up
 connect using SSH
-$ vargrant ssh
+$ vagrant ssh
+```
+
+```
+$ vagrant init ubuntu/trusty64
+$ vagrant up
 ```
 
 ### Step 4: return to the host machine
@@ -43,7 +48,7 @@ $ exit
 ### Step 5: destroy the VM and remove the binary image
 
 ```
-$ vargrant destroy
+$ vagrant destroy
 ```
 This command must be run from the directory which contains the vagrantfile you want to remove.
 
