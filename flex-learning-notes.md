@@ -586,7 +586,7 @@ BEGIN(0) returns to the original state where only the rules with no start condit
 BEGIN actions can also be given as indented code at the beginning of the rules section. For example, the following will cause the scanner to enter the SPECIAL start condition whenever yylex() is called and the global variable enter_special is true:
 
 ```
-                 int enter_special;
+         int enter_special;
      
          %x SPECIAL
          %%
