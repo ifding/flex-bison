@@ -1,6 +1,5 @@
 Fall 2016
 SDE1
-Fei Ding
 Sep 12 2016
 
 The contents of the archive:
@@ -18,14 +17,12 @@ declarations in the first part of the flex code.
 %option noinput
 
 How to build and test the SDE1 ?
-1. unzip the zip file
-$ unzip feid-sde1.zip
 
-2. give execute permission to the script
+1. give execute permission to the script
 $ chmod +x /path/to/build_prolog1.sh
 
-3. if build_prolog1.sh is in the current directory, just run the script
+2. if build_prolog1.sh is in the current directory, just run the script
 $ ./build_prolog1.sh
 
-4. test the executable
+3. test the executable
 $ ./proglog1 <filename
