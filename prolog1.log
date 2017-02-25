@@ -1,0 +1,74 @@
+$ cat help2
+help('topic',2,3,X).
+$ ./prolog1 <help2
+
+The input string is a SYNTACTICALLY CORRECT Prolog set of clauses.
+$ cat help2_bad
+help('topic'2,3,X).
+$ ./prolog1 <help2_bad
+syntax error
+
+Syntactically incorrect (INVALID) string
+
+$ cat hiMom1
+hiMom(3).
+$ ./prolog1 <hiMom1
+
+The input string is a SYNTACTICALLY CORRECT Prolog set of clauses.
+$ cat hiMom_bad
+h***.
+$ ./prolog1 <hiMom_bad
+syntax error
+
+Syntactically incorrect (INVALID) string
+
+$ cat multiple1
+h.
+help('topic',2,3,X).
+hiMom(3).
+$ ./prolog1 <multiple1
+
+The input string is a SYNTACTICALLY CORRECT Prolog set of clauses.
+$ cat multiple2
+help('topic',2,3,X).
+hiMom(3).
+hiMom("asdfjkl").
+$ ./prolog1 <multiple2
+syntax error
+
+Syntactically incorrect (INVALID) string
+
+$ cat multiple2_bad
+name(a,b(w),c,34).
+help('topic',2,3,X).
+hiMom(3).
+$ ./prolog1 <multiple2_bad
+syntax error
+
+Syntactically incorrect (INVALID) string
+
+$ cat multiple2_bad2
+file-contents:
+help('topic',2,'3,X).
+hiMom(3).
+$ ./prolog1 <multiple2_bad2
+syntax error
+
+Syntactically incorrect (INVALID) string
+
+$ cat rule1
+head :- tail1,tail2,tail3.
+$ ./prolog1 <rule1
+
+The input string is a SYNTACTICALLY CORRECT Prolog set of clauses.
+$ cat rule2
+head(X) :- tail1(X),tail2(Y),tail3(Y).
+$ ./prolog1 <rule2
+
+The input string is a SYNTACTICALLY CORRECT Prolog set of clauses.
+$ cat rule2_bad
+head(X) ::= tail1(X),tail2(Y),tail3(Y).
+$ ./prolog1 <rule2_bad
+syntax error
+
+Syntactically incorrect (INVALID) string
