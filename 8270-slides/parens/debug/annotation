@@ -1,0 +1,107 @@
+Starting parse
+Entering state 0
+Reducing stack by rule 2 (line 13):
+-> $$ = nterm lines ()
+Stack now 0
+Entering state 1
+Reading a token: --(end of buffer or a NUL)
+
+Stack is now:
+  (1, lines)
+  (0, -    )
+
+()
+
+--accepting rule at line 9 ("(")
+Next token is token LPAR ()
+Shifting token LPAR ()
+Entering state 3
+
+Stack is now:
+  (3, LPAR )
+  (1, lines)
+  (0, -    )
+
+Reading a token: --accepting rule at line 10 (")")
+Next token is token RPAR ()
+Reducing stack by rule 4 (line 17):
+-> $$ = nterm expr ()
+Stack now 0 1 3
+Entering state 5
+
+Stack is now:
+  (5, expr )
+  (3, LPAR )
+  (1, lines)
+  (0, -    )
+
+Next token is token RPAR ()
+Shifting token RPAR ()
+Entering state 7
+
+Stack is now:
+  (7, RPAR )
+  (5, expr )
+  (3, LPAR )
+  (1, lines)
+  (0, -    )
+
+Entering state 8
+Reducing stack by rule 3 (line 16):
+   $1 = token LPAR ()
+   $2 = nterm expr ()
+   $3 = token RPAR ()
+   $4 = nterm expr ()
+-> $$ = nterm expr ()
+
+Stack is now:
+  (8, expr )
+  (7, RPAR )
+  (5, expr )
+  (3, LPAR )
+  (1, lines)
+  (0, -    )
+
+Reducing stack by rule 3 (line 16):
+   $1 = token LPAR ()
+   $2 = nterm expr ()
+   $3 = token RPAR ()
+   $4 = nterm expr ()
+-> $$ = nterm expr ()
+Stack now 0 1
+
+Entering state 4
+Next token is token CR ()
+Shifting token CR ()
+Entering state 6
+
+Stack is now:
+  (4, CR   )
+  (1, lines)
+  (0, -    )
+
+Reducing stack by rule 1 (line 11):
+   $1 = nterm lines ()
+   $2 = nterm expr ()
+   $3 = token CR ()
+accept
+-> $$ = nterm lines ()
+Stack now 0
+Entering state 1
+
+Stack is now:
+  (1, lines)
+  (0,   -  )
+
+Reading a token: --(end of buffer or a NUL)
+--EOF (start condition 0)
+Now at end of input.
+Shifting token $end ()
+Entering state 2
+Stack now 0 1 2
+
+Stack is now:
+  (2, $end )
+  (1, lines)
+  (0,   -  )
+
